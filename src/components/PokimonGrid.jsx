@@ -5,9 +5,9 @@ export const PokimonGrid = ({pokemon}) => {
         return url.split("/").filter(Boolean).pop()
     }
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 px-4">
         {pokemon.map((item, index) => (
-            <PokemonCard key={index} name={item.name} image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getPokemonId(item.url)}.png`}/>
+            <PokemonCard key={index} name={item.name} id={getPokemonId(item.url)} image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getPokemonId(item.url)}.png`}/>
         ))}
     </div>
   )

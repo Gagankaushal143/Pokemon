@@ -3,6 +3,8 @@ import { Loader } from "../components/Loader"
 import { getPokemonList } from "../services/api";
 import { PokimonGrid } from "../components/PokimonGrid";
 import { SearchBar } from "../components/SearchBar";
+import { Navbar } from "../components/Navbar";
+import { NotFound } from "../components/NotFound";
 
 
 export const Home = () => {
@@ -38,9 +40,14 @@ export const Home = () => {
     return (
         <div>
             <div>
+                <div className="flex items-center justify-between px-4 py-2 bg-gray-600 text-white">
+                    <Navbar value={search} onChange={(e) => setSearch(e.target.value)} />
+                    <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} />
+                </div>
                 <h1>Pokedox</h1>
-                <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} />
-                <PokimonGrid pokemon={filteredPokemon} />
+                {/* <PokimonGrid pokemon={filteredPokemon} /> */}
+                {filteredPokemon.length === 0 ? <NotFound message={"No Pokemon found!!"}/> : <PokimonGrid pokemon={filteredPokemon}/>}
+                
             </div>
         </div>
     )
