@@ -27,12 +27,12 @@ export const PokemonDetails = () => {
 
     return (
         <div className="flex justify-center items-center w-full h-screen">
-            <div className="flex border items-center w-xl px-8 py-4 rounded-xl shadow-2xl bg-amber-100" >
-                <div className=" p-4 rounded-full bg-gray-100 shadow-inner shadow-gray-600">
+            <div className="flex border items-center w-xl  px-8 py-4 rounded-xl shadow-2xl bg-pink-100" >
+                <div className=" p-4 rounded-full bg-pink-50 border-4 border-pink-300">
                     <img src={pokemon.sprites.front_default} alt={pokemon.name} className="w-52" />
                 </div>
-                <div className="flex-1 pl-4 space-y-1 ml-2">
-                    <h1 className="capitalize text-4xl font-bold">{pokemon.name}</h1>
+                <div className="flex-1 pl-4 space-y-2 ml-2 card">
+                    <h1 className="capitalize text-4xl text-black font-bold">{pokemon.name}</h1>
                     <p className="text-lg ">Height: {pokemon.height}ft</p>
                     <p className="text-lg ">Weight: {pokemon.weight}Kg</p>
                     <h1 className="text-lg">Abilities: </h1>

@@ -40,11 +40,11 @@ export const Home = () => {
     return (
         <div>
             <div>
-                <div className="flex items-center justify-between px-4 py-2 bg-gray-600 text-white">
+                <div className="flex items-center justify-between px-4 py-3 bg-gray-500">
                     <Navbar value={search} onChange={(e) => setSearch(e.target.value)} />
                     <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} />
                 </div>
-                <h1>Pokedox</h1>
+                {/* <h1 className="px-8 py-4 text-3xl bg-gray-100 heading">Pokedox</h1> */}
                 {/* <PokimonGrid pokemon={filteredPokemon} /> */}
                 {filteredPokemon.length === 0 ? <NotFound message={"No Pokemon found!!"}/> : <PokimonGrid pokemon={filteredPokemon}/>}
                 

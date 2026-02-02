@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Oooh+Baby&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
+
+.card, .heading{
+    font-family: "Onest", sans-serif;
+}
+
+.navHead{
+    font-family: "Oooh Baby", cursive;
+}
