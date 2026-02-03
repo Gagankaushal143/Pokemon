@@ -44,14 +44,15 @@ export const TypeFilter = ({value, onChange}) => {
     
 
   return (
-    <div className="space-x-4 space-y-4 py-2 px-4">
+    <div className="">
+        <div className="space-x-2 lg:space-x-4 space-y-4 py-2 px-4">
         {types.map((type) => (
-
             <button onClick={() => onChange(type)} key={type} className={`${value === type ?   "bg-white text-blue-500 border border-blue-500"
-                : `${typeColors[type]} text-white border-transparent`} px-2 py-1 rounded-lg cursor-pointer transition-colors active:-translate-y-1`}>
+                : `${typeColors[type]} text-white border-transparent`} px-2 py-1 rounded-lg cursor-pointer transition-colors`}>
                 {type}
             </button>
         ))}
+        </div>
     </div>
   )
 }

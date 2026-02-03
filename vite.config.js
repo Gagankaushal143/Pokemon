@@ -10,5 +10,8 @@ export default defineConfig({
         plugins: [['babel-plugin-react-compiler']],
       },
     }),tailwindcss()
-  ],
+  ],server: {
+    host: true, // This exposes the project on your local network
+    port: 5173, // You can specify a fixed port if you like
+  }
 })

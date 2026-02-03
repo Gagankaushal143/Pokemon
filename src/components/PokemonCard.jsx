@@ -27,15 +27,15 @@ export const PokemonCard = ({name, image, id}) => {
   return (
     <Link to={`/pokemon/${id}`} className="w-56">
         <div className="">
-            <div className="w-full flex items-center justify-center flex-col bg-linear-90 rounded-xl shadow-sm p-4 transition hover:border-t border-gray-500 hover:shadow-xl shadow-neutral-600 border-t bg-gray-100">
+            <div className="flex items-center justify-center flex-col bg-linear-90 rounded-xl shadow-sm p-4 transition hover:border-t border-gray-500 hover:shadow-xl shadow-neutral-600 border-t bg-gray-100">
                 <div className="bg-gray-200 w-full place-items-center rounded-2xl">
                   <img src={image} alt={name} className="w-36"/>
                 </div>
                 <h1 className=" text-[1.35rem] capitalize text-gray-700 ">{name}</h1>
 
-                <div>
+                <div className="space-x-2">
                   {types.map((type) => (
-                    <span key={type} className="px-2 py-0.5 text-s rounded-full bg-gray-200 capitalize">
+                    <span key={type} className="px-2 py-0.5 text-sm text-gray-700 rounded-full bg-gray-200 capitalize">
                       {type}
                     </span>
                   ))}
