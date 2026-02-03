@@ -5,6 +5,7 @@ import { PokimonGrid } from "../components/PokimonGrid";
 import { SearchBar } from "../components/SearchBar";
 import { Navbar } from "../components/Navbar";
 import { NotFound } from "../components/NotFound";
+import { TypeFilter } from "../components/TypeFilter";
 
 
 export const Home = () => {
@@ -12,8 +13,22 @@ export const Home = () => {
     const [pokemon, setPokemon] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [search, setSearch] = useState("")
+    const [search, setSearch] = useState("");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+    const [type, setType] = useState("all");
+    const [typePokemon, setTypePokemon] = useState([]);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(search)
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [search])
+
+
+
+    
     useEffect(() => {
         async function fetchPokemon() {
             try {
@@ -28,7 +43,23 @@ export const Home = () => {
             }
         }
         fetchPokemon();
-    }, [])
+    }, []);
+
+    useEffect(() =>{
+        async function fetchByType() {
+            if(type === "all"){
+                setTypePokemon([])
+            }
+
+            const res = await fetch(`https://pokeapi.co/api/v2/type/${type}`)
+            const data = await res.json()
+
+            const names = data.pokemon.map(p => p.pokemon.name)
+
+            setTypePokemon(names    )
+        }
+        fetchByType()
+    }, [type]);
 
     if (loading) return <Loader />
 
@@ -36,7 +67,16 @@ export const Home = () => {
         return <p className="text-2xl text-red-400 text-center">{error}</p>
     }
 
-    const filteredPokemon = pokemon.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
+    
+
+    const filteredPokemon = pokemon.filter((item) => {
+        const matchSearch = item.name.toLowerCase().includes(debouncedSearch.toLowerCase())
+        
+        const matchType = 
+            type === "all" || typePokemon.includes(item.name)
+        
+        return matchSearch && matchType;
+    })
     return (
         <div>
             <div>
@@ -46,6 +86,7 @@ export const Home = () => {
                 </div>
                 {/* <h1 className="px-8 py-4 text-3xl bg-gray-100 heading">Pokedox</h1> */}
                 {/* <PokimonGrid pokemon={filteredPokemon} /> */}
+                <TypeFilter value={type} onChange={setType}/>
                 {filteredPokemon.length === 0 ? <NotFound message={"No Pokemon found!!"}/> : <PokimonGrid pokemon={filteredPokemon}/>}
                 
             </div>

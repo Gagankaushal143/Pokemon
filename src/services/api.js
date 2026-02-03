@@ -1,6 +1,6 @@
 export async function getPokemonList() {
    try{
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=100`)
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=300`)
 
     if(!res.ok){
         throw new Error("Failed to fetch Pokemon")

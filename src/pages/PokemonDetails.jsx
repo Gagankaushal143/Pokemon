@@ -38,8 +38,8 @@ export const PokemonDetails = () => {
                     <h1 className="text-lg">Abilities: </h1>
                     <p className="flex text-base">
                         {pokemon.abilities.map((a) => (
-                            <p key={a.ability.name} className="capitalize">
-                                {a.ability.name},
+                            <p key={a.ability.name} className="capitalize px-2 py-0.5 text-s rounded-full bg-gray-300 ">
+                                {a.ability.name}
                             </p>
                         ))}
                     </p>
