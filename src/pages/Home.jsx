@@ -18,6 +18,9 @@ export const Home = () => {
     const [type, setType] = useState("all");
     const [typePokemon, setTypePokemon] = useState([]);
 
+    const ItemPerLoad = 20;
+    const [visibleCount, setVisibleCount] = useState(ItemPerLoad)
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedSearch(search)
@@ -26,19 +29,23 @@ export const Home = () => {
         return () => clearTimeout(timer);
     }, [search])
 
-
+    useEffect(() => {
+        setVisibleCount(ItemPerLoad);
+    },[debouncedSearch, type])
 
     
     useEffect(() => {
         async function fetchPokemon() {
             try {
                 const data = await getPokemonList();
-                setPokemon(data);
+                
+                setTimeout(() => {
+                    setPokemon(data);
+                    setLoading(false);
+                }, 1000);
             }
             catch (err) {
-                setError(err.message)
-            }
-            finally {
+                setError(err.message);
                 setLoading(false)
             }
         }
@@ -61,7 +68,9 @@ export const Home = () => {
         fetchByType()
     }, [type]);
 
-    if (loading) return <Loader />
+    if (loading){
+        return <Loader />
+    }
 
     if (error) {
         return <p className="text-2xl text-red-400 text-center">{error}</p>
@@ -77,6 +86,10 @@ export const Home = () => {
         
         return matchSearch && matchType;
     })
+
+    const visiblePokemon = filteredPokemon.slice(0, visibleCount);
+
+
     return (
         <div>
             <div>
@@ -84,10 +97,16 @@ export const Home = () => {
                     <Navbar value={search} onChange={(e) => setSearch(e.target.value)} />
                     <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} />
                 </div>
-                {/* <h1 className="px-8 py-4 text-3xl bg-gray-100 heading">Pokedox</h1> */}
-                {/* <PokimonGrid pokemon={filteredPokemon} /> */}
                 <TypeFilter value={type} onChange={setType}/>
-                {filteredPokemon.length === 0 ? <NotFound message={"No Pokemon found!!"}/> : <PokimonGrid pokemon={filteredPokemon}/>}
+                {filteredPokemon.length === 0 ? <NotFound message={"No Pokemon found!!"}/> : <PokimonGrid pokemon={visiblePokemon}/>}
+
+                {visibleCount < filteredPokemon.length && (
+                    <div className="w-full flex items-center justify-center py-4">
+                        <button onClick={() => setVisibleCount(prev => prev + ItemPerLoad)} className="cursor-pointer px-6 py-2 bg-gray-300 text-base rounded-full hover:bg-gray-400 active:scale-95 transition">
+                            Load More
+                        </button>
+                    </div>
+                )}
                 
             </div>
         </div>

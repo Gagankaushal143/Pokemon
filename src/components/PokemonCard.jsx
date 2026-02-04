@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 export const PokemonCard = ({name, image, id}) => {
 
-  const [types, setTYpes] = useState([])
+  const [types, setTYpes] = useState([]);
 
   useEffect(() =>{
     async function fetchTypes() {
