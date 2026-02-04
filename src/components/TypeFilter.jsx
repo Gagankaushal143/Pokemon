@@ -1,59 +1,35 @@
-const types= [
-        "Normal",
-        "Fire",
-        "Water",
-        "Grass",
-        "Electric",
-        "Ice",
-        "Fighting",
-        "Poison",
-        "Ground",
-        "Flying",
-        "Psychic",
-        "Bug",
-        "Rock",
-        "Ghost",
-        "Dragon",
-        "Dark",
-        "Steel",
-        "Fairy",
-    ];
+import { useState } from "react";
 
-const typeColors = {
-  Normal: "bg-[#A8A77A]",
-  Fire: "bg-[#EE8130]",
-  Water: "bg-[#6390F0]",
-  Grass: "bg-[#7AC74C]",
-  Electric: "bg-[#F7D02C]",
-  Ice: "bg-[#96D9D6]",
-  Fighting: "bg-[#C22E28]",
-  Poison: "bg-[#A33EA1]",
-  Ground: "bg-[#E2BF65]",
-  Flying: "bg-[#A98FF3]",
-  Psychic: "bg-[#F95587]",
-  Bug: "bg-[#A6B91A]",
-  Rock: "bg-[#B6A136]",
-  Ghost: "bg-[#735797]",
-  Dragon: "bg-[#6F35FC]",
-  Dark: "bg-[#705746]",
-  Steel: "bg-[#B7B7CE]",
-  Fairy: "bg-[#D685AD]",
-};
+const types= [
+  "all","fire","water","grass","electric","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"
+  ];
+
 
 export const TypeFilter = ({value, onChange}) => {
+
+  const [open, setOpen] = useState(false)
     
 
   return (
-    <div className="">
-        <div className="space-x-2 lg:space-x-4 space-y-4 py-2 px-4">
-        {types.map((type) => (
-            <button onClick={() => onChange(type)} key={type} className={`${value === type ?   "bg-white text-blue-500 border border-blue-500"
-                : `${typeColors[type]} text-white border-transparent`} px-2 py-1 rounded-lg cursor-pointer transition-colors`}>
+    <div>
+        <button onClick={() => setOpen(!open)} className="px-4 py-2 bg-white border border-amber-500 text-black rounded-lg shadow-lg hover:bg-gray-100 flex items-center gap-2 cursor-pointer">
+          <span className="capitalize">
+              {value === "all" ? "Filter" : value}
+          </span>
+        </button>
+
+        {open && (
+          <div className="absolute right-0 mt-2 w-40 bg-white border rounded-xl shadow-lg max-h-64 overflow-y-auto z-20">
+            {types.map((type) => (
+              <button key={type} onClick={() => {onChange(type); setOpen(false);}} className={`cursor-pointer block w-full text-left px-4 py-2 capitalize hover:bg-gray-100
+                ${value === type ? "bg-gray-200 font-semibold" : ""}
+              `}>
                 {type}
-            </button>
-        ))}
-        </div>
+              </button>
+            ))}
+          </div>
+        )}
+
     </div>
   )
 }
-// "bg-blue-500 text-white" : "bg-white text-blue-500"} border px-3 py-1 rounded-lg cursor-pointer active:bg-blue-300

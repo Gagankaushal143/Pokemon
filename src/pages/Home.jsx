@@ -29,16 +29,14 @@ export const Home = () => {
         return () => clearTimeout(timer);
     }, [search])
 
-    useEffect(() => {
-        setVisibleCount(ItemPerLoad);
-    },[debouncedSearch, type])
 
-    
+
+
     useEffect(() => {
         async function fetchPokemon() {
             try {
                 const data = await getPokemonList();
-                
+
                 setTimeout(() => {
                     setPokemon(data);
                     setLoading(false);
@@ -52,9 +50,9 @@ export const Home = () => {
         fetchPokemon();
     }, []);
 
-    useEffect(() =>{
+    useEffect(() => {
         async function fetchByType() {
-            if(type === "all"){
+            if (type === "all") {
                 setTypePokemon([])
             }
 
@@ -63,12 +61,12 @@ export const Home = () => {
 
             const names = data.pokemon.map(p => p.pokemon.name)
 
-            setTypePokemon(names    )
+            setTypePokemon(names)
         }
         fetchByType()
     }, [type]);
 
-    if (loading){
+    if (loading) {
         return <Loader />
     }
 
@@ -76,14 +74,19 @@ export const Home = () => {
         return <p className="text-2xl text-red-400 text-center">{error}</p>
     }
 
-    
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+        setVisibleCount(ItemPerLoad);
+    };
+
 
     const filteredPokemon = pokemon.filter((item) => {
         const matchSearch = item.name.toLowerCase().includes(debouncedSearch.toLowerCase())
-        
-        const matchType = 
+
+        const matchType =
             type === "all" || typePokemon.includes(item.name)
-        
+
         return matchSearch && matchType;
     })
 
@@ -93,12 +96,18 @@ export const Home = () => {
     return (
         <div>
             <div>
-                <div className="flex items-center justify-between px-4 py-3 bg-gray-500">
+                <div className="text-center py-3 bg-gray-500 ">
                     <Navbar value={search} onChange={(e) => setSearch(e.target.value)} />
-                    <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} />
                 </div>
-                <TypeFilter value={type} onChange={setType}/>
-                {filteredPokemon.length === 0 ? <NotFound message={"No Pokemon found!!"}/> : <PokimonGrid pokemon={visiblePokemon}/>}
+                <div className="flex items-center justify-between px-4 py-3 md:px-10 bg-gray-100">
+                    <SearchBar value={search} onChange={handleSearchChange} />
+                    <TypeFilter value={type} onChange={(newType) => {
+                        setType(newType);
+                        setVisibleCount(ItemPerLoad);
+                    }
+                    } />
+                </div>
+                {filteredPokemon.length === 0 ? <NotFound message={"No Pokemon found!!"} /> : <PokimonGrid pokemon={visiblePokemon} />}
 
                 {visibleCount < filteredPokemon.length && (
                     <div className="w-full flex items-center justify-center py-4">
@@ -107,7 +116,7 @@ export const Home = () => {
                         </button>
                     </div>
                 )}
-                
+
             </div>
         </div>
     )

@@ -26,23 +26,41 @@ export const PokemonDetails = () => {
     if (loading) return <Loader />
 
     return (
-        <div className="flex justify-center items-center w-full h-screen">
-            <div className="flex border items-center w-xl  px-8 py-4 rounded-xl shadow-2xl bg-pink-100" >
-                <div className=" p-4 rounded-full bg-pink-50 border-4 border-pink-300">
-                    <img src={pokemon.sprites.front_default} alt={pokemon.name} className="w-52" />
+        <div className="w-full h-screen flex items-center justify-center">
+            <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl shadow-black overflow-hidden grid grid-cols-1 md:grid-cols-2 border-t">
+
+
+                <div className="flex items-center justify-center bg-linear-to-br from-pink-100 to-pink-200 p-8">
+                    <img src={pokemon.sprites.front_default} alt={pokemon.name} className="w-56 drop-shadow-xl" />
                 </div>
-                <div className="flex-1 pl-4 space-y-2 ml-2 card">
-                    <h1 className="capitalize text-4xl text-black font-bold">{pokemon.name}</h1>
-                    <p className="text-lg ">Height: {pokemon.height}ft</p>
-                    <p className="text-lg ">Weight: {pokemon.weight}Kg</p>
-                    <h1 className="text-lg">Abilities: </h1>
-                    <p className="flex text-base">
-                        {pokemon.abilities.map((a) => (
-                            <p key={a.ability.name} className="capitalize px-2 py-0.5 text-s rounded-full bg-gray-300 ">
-                                {a.ability.name}
-                            </p>
+
+
+                <div className="p-6 space-y-4">
+                    <h1 className="text-3xl capitalize font-pattaya" >{pokemon.name}</h1>
+
+                    <div className="flex gap-2">
+                        {pokemon.types.map(t => (
+                            <span key={t.type.name} className="px-3 py-1 rounded-full text-sm text-white bg-gray-600 capitalize">
+                                {t.type.name}
+                            </span>
                         ))}
-                    </p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                        <p><b>Height:</b> {pokemon.height}</p>
+                        <p><b>Weight:</b> {pokemon.weight}</p>
+                    </div>
+
+                    <div>
+                        <h1 className="font-semibold mb-2">Abilities</h1>
+                        <div className="flex flex-wrap gap-2">
+                            {pokemon.abilities.map(a => (
+                                <span key={a.ability.name} className="px-3 py-1 bg-gray-200 rounded-full text-sm capitalize">
+                                    {a.ability.name}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
