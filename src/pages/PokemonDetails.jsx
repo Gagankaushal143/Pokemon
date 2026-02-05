@@ -1,24 +1,29 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { Loader } from "../components/Loader";
+import { pokemonCache } from "../services/pokemonCache";
 
 export const PokemonDetails = () => {
 
+    const navigate = useNavigate();
     const { id } = useParams();
     const [pokemon, setPokemon] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchDetails() {
-            try {
-                const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+            if(pokemonCache[id]){
+                setPokemon(pokemonCache[id]);
+                setLoading(false);
+                return;
+            }
 
-                const data = await res.json();
-                setPokemon(data);
-            }
-            finally {
-                setLoading(false)
-            }
+            const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+            const data = await res.json();
+
+            pokemonCache[id] = data;
+            setPokemon(data);
+            setLoading(false);
         }
         fetchDetails()
     }, [id])
@@ -28,14 +33,16 @@ export const PokemonDetails = () => {
     return (
         <div className="w-full h-screen flex items-center justify-center">
             <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl shadow-black overflow-hidden grid grid-cols-1 md:grid-cols-2 border-t">
-
+                <button onClick={() => navigate(-1)} className="flex items-center gap-2 mb-4 text-gray-600 hover:text-black fixed top-4 left-4 hover:bg-gray-200 p-2 rounded-lg cursor-pointer">
+                    ← Back
+                </button>
 
                 <div className="flex items-center justify-center bg-linear-to-br from-pink-100 to-pink-200 p-8">
                     <img src={pokemon.sprites.front_default} alt={pokemon.name} className="w-56 drop-shadow-xl" />
                 </div>
 
 
-                <div className="p-6 space-y-4">
+                <div className="p-6 space-y-4 select-none">
                     <h1 className="text-3xl capitalize font-pattaya" >{pokemon.name}</h1>
 
                     <div className="flex gap-2">

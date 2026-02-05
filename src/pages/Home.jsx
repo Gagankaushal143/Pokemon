@@ -40,7 +40,7 @@ export const Home = () => {
                 setTimeout(() => {
                     setPokemon(data);
                     setLoading(false);
-                }, 1000);
+                }, 700);
             }
             catch (err) {
                 setError(err.message);
@@ -53,7 +53,8 @@ export const Home = () => {
     useEffect(() => {
         async function fetchByType() {
             if (type === "all") {
-                setTypePokemon([])
+                setTypePokemon([]);
+                return;
             }
 
             const res = await fetch(`https://pokeapi.co/api/v2/type/${type}`)
